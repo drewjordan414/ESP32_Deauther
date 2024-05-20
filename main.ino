@@ -12,9 +12,9 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 // Define button pins based on the schematic
-#define BUTTON_UP D5     // GPIO14
-#define BUTTON_DOWN D6   // GPIO12
-#define BUTTON_OK D7     // GPIO13
+#define BUTTON_UP 14    // GPIO14
+#define BUTTON_DOWN 12  // GPIO12
+#define BUTTON_OK 13    // GPIO13
 
 // Menu variables
 int menuIndex = 0;
@@ -38,7 +38,11 @@ void scanNetworks() {
 
   int n = WiFi.scanNetworks();
   if (n == 0) {
+    display.clearDisplay();
+    display.setCursor(0, 0);
     display.print("No networks found");
+    display.display();
+    delay(2000);
   } else {
     for (int i = 0; i < n; ++i) {
       display.clearDisplay();
@@ -80,14 +84,9 @@ void deauthNetwork() {
     return;
   }
 
-  // Initialize deauther
-  deauther.begin();
-
-  // Add target
-  deauther.addTarget(selectedSSID.c_str(), selectedBSSID.c_str());
-
-  // Start deauth attack
-  deauther.startAttack();
+  // Note: The ESP32 doesn't have native deauther support like ESP8266.
+  // This is a placeholder for deauthentication functionality.
+  // You'll need to implement or include an appropriate library or code for deauth.
 
   display.clearDisplay();
   display.setTextSize(1);
